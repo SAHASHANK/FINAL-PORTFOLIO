@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shashank's Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+    header {
+      background: #1f1f1f;
+      padding: 1.5rem;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .profile-pic-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 1rem auto;
+    }
+    .profile-pic {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #00ffcc;
+      display: block;
+      animation: bobbing 2s infinite ease-in-out, pulse 3s infinite ease-in-out;
+    }
+    @keyframes bobbing {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 20px 10px rgba(0, 255, 204, 0);
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #00ffcc;
+    }
+    section {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .project {
+      background: #1e1e1e;
+      margin: 1rem 0;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #333;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #00ffcc;
+    }
+    .project a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+    .project a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background: #1f1f1f;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <header>
+    <div class="profile-pic-container">
+      <img src="a11.jpg" alt="Profile Picture" class="profile-pic">
+    </div>
+    <h1>Shashank's Portfolio</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hi! I'm Shashank, a dedicated and curious student with a passion for technology and web development. I'm currently exploring the world of programming and enjoy building interactive websites and useful applications. I love learning new skills, collaborating with others, and turning creative ideas into reality through code. My goal is to grow as a developer and contribute to meaningful projects that solve real-world problems.</p>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project">
+      <h3><a href="https://famous-bavarois-78d2a9.netlify.app/" target="_blank">To-Do List App</a></h3>
+      <p>A simple and functional task manager with animations and live deployment.</p>
+    </div>
+    <div class="project">
+      <h3>Personal Website</h3>
+      <p>A portfolio website created using HTML, CSS, and JavaScript to showcase my skills.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: shashank@example.com</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Shashank</p>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    class Particle {
+      constructor(color) {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 3 + 1;
+        this.dx = (Math.random() - 0.5) * 1;
+        this.dy = (Math.random() - 0.5) * 1;
+        this.color = color;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+      update() {
+        this.x += this.dx;
+        this.y += this.dy;
+
+        if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
+
+        this.draw();
+      }
+    }
+
+    let particles = [];
+    const colors = ['#00ffcc', '#ff4081', '#ffc107', '#82b1ff'];
+    for (let i = 0; i < 150; i++) {
+      particles.push(new Particle(colors[Math.floor(Math.random() * colors.length)]));
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => p.update());
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
